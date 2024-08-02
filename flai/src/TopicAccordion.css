@@ -1,0 +1,111 @@
+/* TopicAccordion.css */
+.topic-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .topic-section h5 {
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .topic-section .form-control {
+    margin-bottom: 10px;
+  }
+  
+  .topic-section .btn {
+    margin-right: 10px;
+  }
+  
+  .accordion-item {
+    border: none;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .accordion-header {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .accordion-button:not(.collapsed) {
+    color: white;
+    background-color: #0056b3;
+  }
+
+  .add-topic {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+    /* align-items: center; */
+  }
+
+  .topic-name-form {
+    max-width: 300px;
+    max-height: 50px;
+  }
+
+  .add-topic-button {
+    /* margin-top: 10px; */
+    height: 50px;
+  }
+
+  .add-faq-btns {
+    margin-bottom: 30px;
+    margin-left: -10px;
+  }
+
+
+  /* TopicAccordion.css */
+
+/* General container styling */
+.topic-section {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  margin: 20px 0;
+}
+
+.section-title {
+  margin-bottom: 20px;
+}
+
+/* Button styling */
+.add-faq-btns {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* FAQ entry styling */
+.faq-entry {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.faq-question-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.faq-answer-label {
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.faq-input {
+  margin-bottom: 10px;
+}
