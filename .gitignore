@@ -1,3 +1,5 @@
 node_modules
 uploads
 chats
+config.js
+tokens.json

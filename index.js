@@ -5,8 +5,9 @@ const fs = require('fs');
 const cors = require('cors');
 const _ = require('lodash');
 const axios = require('axios');
+const config = require('./config.js')
+const flock = require('flockos')
 
-const call = require('./call');
 
 const app = express();
 app.use(cors());
@@ -232,3 +233,129 @@ const callGPT4API = async (prompt, apiKey, history) => {
 const readTextFile = (filePath) => {
     return fs.readFileSync(filePath, 'utf-8');
 };
+
+
+// ---------------------------------------------
+flock.appId=config.appId;
+flock.appSecret=config.appSecret;
+
+// var app=express();
+
+app.use(flock.events.tokenVerifier);
+app.use('/slash',flock.events.listener);
+app.use('/events',flock.events.listener);
+
+flock.events.on('app.install',function(event,callback){
+    
+    const filePath = './tokens.json';
+
+    // Create a new token object from the event
+    const userToken = {
+        userId: event.userId,
+        token: event.token,
+    };
+
+    fs.readFile(filePath, (err, data) => {
+        let tokens = [];
+        if (!err) {
+            tokens = JSON.parse(data);
+        }
+
+        tokens.push(userToken);
+
+        fs.writeFile(filePath, JSON.stringify(tokens, null, 2), 'utf8', (err) => {
+            if (err) {
+                console.error('Error writing to file:', err);
+            } else {
+                console.log('Token saved successfully');
+            }
+            callback();
+        });
+    callback();
+    });
+
+});
+
+
+flock.events.on('client.slashCommand',function(event,callback){
+    console.log(event);
+    console.log(event.text);
+    sendResponse(event.userId,"Hello welcome");
+    callback(null,{text:"Hello"});
+});
+
+
+var sendResponse= function (user,text){
+    flock.chat.sendMessage(config.botToken,{
+        to:user,
+        text:text
+    });
+}
+
+function getToken(data, targetUserId) {
+    for (let entry of data) {
+
+      if (entry.userId === targetUserId) {
+
+        return entry.token;
+      }
+    }
+    return null;
+  }
+  flock.events.on('chat.receiveMessage',function(event,callback){
+    let text=event.message.text;
+    let parts = text.split('|');
+    if(parts.length<2){
+        sendResponse(event.userId,"Wrong syntax");
+    }
+    else{
+        let part1 = parts[0];
+    let query = parts[1];
+    if(part1.toLowerCase()=="hr"){
+        const filePath = __dirname + '/uploads' + '/hr.txt';
+        console.log(filePath);
+        const prompt = getPrompt(filePath, query);
+        console.log(prompt);
+        callGPT4API(prompt, apiKey, []).then((answer) => {
+            console.log("Answer: ", answer);
+            sendResponse(event.userId,answer);
+        });
+        // sendResponse(event.userId,answer);
+    }
+    else{
+        sendResponse(event.userId,"Product Query");
+    }
+    }
+    
+    callback();
+  })
+
+flock.events.on('client.messageAction',function(event,callback){
+    var messages=event.messages;
+    if(!(messages && messages.length>0)){
+        console.log('chat',event.chat);
+    }
+    const filePath = './tokens.json';
+    var token="Wow";
+     var file=fs.readFileSync(filePath,"utf-8");
+   
+        let tokens = [];
+        tokens = JSON.parse(file);
+        console.log(tokens);
+        token=getToken(tokens, event.userId);
+        console.log(typeof token);
+
+    flock.chat.fetchMessages(token,{
+        chat:event.chat,
+        uids:event.messageUids
+    }, function(error,messages){
+        if(error){
+            console.warn('Got Error');
+            callback(error);
+        }
+        else{
+            console.log("Reached");
+            console.log(messages[0].text);
+        }
+    })
+});
