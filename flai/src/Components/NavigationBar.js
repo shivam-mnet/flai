@@ -1,15 +1,20 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-
+import logo from '../logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function NavigationBar() {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" style = {{height: '70px', backgroundColor: '#d0f2bd'}}>
       <Container>
         <LinkContainer to="/">
-          <Navbar.Brand>MyApp</Navbar.Brand>
+          <Navbar.Brand><img
+              src={logo}
+              height="60"
+              className="d-inline-block align-top"
+              alt="My App Logo"
+            /></Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -25,7 +30,7 @@ function NavigationBar() {
             </LinkContainer>
           </Nav>
           <Nav className="ms-auto">
-            <Nav.Link>Profile</Nav.Link>
+            <Nav.Link>FLAI - Your Flock AI Companion</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

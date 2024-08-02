@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Button, Modal } from 'react-bootstrap';
+import { Form, Button, Modal, Spinner } from 'react-bootstrap';
 import FaqModal from './FaqModal';
 import '../TopicAccordion.css';  // Apply the CSS styling file
 
-function AddFaqSection({ faqs, onInputChange, onAddQuestion, handleAddChats, onAddExtractedFaqs }) {
+function AddFaqSection({ faqs, onInputChange, onAddQuestion, handleAddChats, onAddExtractedFaqs, loading, startLoading, stopLoading}) {
   const [showModal, setShowModal] = useState(false);
-
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
@@ -16,13 +15,23 @@ function AddFaqSection({ faqs, onInputChange, onAddQuestion, handleAddChats, onA
         handleClose={handleCloseModal}
         handleAddFaqs={onAddExtractedFaqs}
         handleAddChats={handleAddChats}
+        startLoading={startLoading}
+        stopLoading={stopLoading}
+        loading={loading}
       />
       <h5 className="section-title">Add context from chat</h5>
       <div className='add-faq-btns'>
         <Button onClick={onAddQuestion}>Add Question</Button>
         <Button onClick={handleShowModal} variant="secondary">Select Chats</Button>
       </div>
-      {faqs.map((faq, index) => (
+      {loading && (
+        <div className="loader-container">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      )}
+      {!loading && faqs.map((faq, index) => (
         <div key={index} className="faq-entry">
           <Form.Label className="faq-question-label">Question:</Form.Label>
           <Form.Control

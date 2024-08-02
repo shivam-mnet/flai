@@ -14,6 +14,9 @@ function TopicAccordion({ eventKey, title }) {
   const [error, setError] = useState('');
   const [chats, setChats] = useState([]);
   const [intro, setIntro] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const startLoading = () => setLoading(true);
+  const stopLoading = () => setLoading(false);
 
   useEffect(() => {
     console.log(documents);
@@ -56,7 +59,7 @@ function TopicAccordion({ eventKey, title }) {
             answer: faq.A
         }));
         setFaqs(mappedFaqs);
-
+        stopLoading();
     } catch (err) {
         console.error('Failed to fetch messages:', err);
         setError('Failed to fetch messages. Please try again.');
@@ -109,6 +112,9 @@ function TopicAccordion({ eventKey, title }) {
             onAddQuestion={handleAddQuestion}
             onAddExtractedFaqs={handleAddExtractedFaqs}
             handleAddChats={handleAddChats}
+            startLoading={startLoading}
+            stopLoading={stopLoading}
+            loading={loading}
           />
           <Button variant="primary" type="submit">
             Submit All

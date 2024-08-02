@@ -62,7 +62,7 @@ const Interact = () => {
         {chatHistory.map((entry, index) => (
           <div key={index} className="chat-bubble">
             <div className="question">{entry.question}</div>
-            <div className="answer">{<ReactMarkdown>{entry.answer}</ReactMarkdown> || (loading && <div>Loading...</div>)}</div>
+            <div>{(<ReactMarkdown className="answer">{entry.answer}</ReactMarkdown>) || (loading && <div>Loading...</div>)}</div>
           </div>
         ))}
       </div>

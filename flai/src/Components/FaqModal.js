@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, ListGroup, Alert } from 'react-bootstrap';
 
-function FaqModal({ show, handleClose, handleAddChats }) {
+function FaqModal({ show, handleClose, handleAddChats, loading, startLoading, stopLoading }) {
   const [contacts, setContacts] = useState([{id: 1, name: "Group"}]);
   const [selectedContacts, setSelectedContacts] = useState([]);
 
@@ -22,6 +22,7 @@ function FaqModal({ show, handleClose, handleAddChats }) {
   };
 
   const onAddChatsSubmit = (event) => {
+    startLoading();
     const temp = selectedContacts.map(contact => contacts.find(obj => obj.id === contact));
     const chats = temp.map(contact => contact.name);
     // const chats = selectedContacts.map(contact => contacts.find(obj => obj.id === contact.id).name);
